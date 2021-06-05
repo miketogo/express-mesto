@@ -12,19 +12,19 @@ module.exports.getUsers = (req, res) => {
 
 module.exports.getUserById = (req, res) => {
   User.findById(req.params.userId)
-  .then((user) => {
-    if (user){
-      return res.status(201).send({ data: user })
-    }
-  })
-  .catch((err) => {
-    if (err.name === "CastError") {
-      return res.status(404).send({
-        message: "Пользователь по указанному id не найден"
-      })
-    }
-    return res.status(500).send({ message: err.message })
-  })
+    .then((user) => {
+      if (user) {
+        return res.status(201).send({ data: user })
+      }
+    })
+    .catch((err) => {
+      if (err.name === "CastError") {
+        return res.status(404).send({
+          message: "Пользователь по указанному id не найден"
+        })
+      }
+      return res.status(500).send({ message: err.message })
+    })
 }
 
 module.exports.createUser = (req, res) => {
@@ -44,9 +44,9 @@ module.exports.createUser = (req, res) => {
 module.exports.updateUserProfile = (req, res) => {
   const { name, about } = req.body;
   User.findByIdAndUpdate(req.user._id, { name: name, about: about }, opts,
-    )
+  )
     .then((user) => {
-      if (user){
+      if (user) {
         return res.status(201).send({ data: user })
       }
     })
