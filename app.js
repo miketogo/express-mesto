@@ -29,9 +29,8 @@ app.post('/signup', celebrate({
     password: Joi.string().required(),
   }).unknown(true),
 }), createUser);
-app.use(auth);
-app.use('/users', require('./routes/users'));
-app.use('/cards', require('./routes/cards'));
+app.use('/users', auth, require('./routes/users'));
+app.use('/cards', auth, require('./routes/cards'));
 
 // eslint-disable-next-line no-unused-vars
 app.use((req, res) => {
