@@ -1,7 +1,8 @@
+import * as helmet from 'helmet';
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const helmet = require('helmet');
 const { errors, celebrate, Joi } = require('celebrate');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
@@ -15,6 +16,8 @@ const { PORT = 3000 } = process.env;
 const CORS_WHITELIST = [
   'https://surikov.mesto.students.nomoredomains.monster',
   'https://api.surikovmesto.students.nomoredomains.club',
+  'http://surikov.mesto.students.nomoredomains.monster',
+  'http://api.surikovmesto.students.nomoredomains.club',
   'http://localhost:3000',
 ];
 
