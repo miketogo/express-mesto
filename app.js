@@ -36,7 +36,7 @@ const corsOption = {
     }
   },
 };
-app.options('*', cors(corsOption));
+app.use('*', cors(corsOption));
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
   useNewUrlParser: true,
