@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
 const { errors, celebrate, Joi } = require('celebrate');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
@@ -21,6 +22,7 @@ const allowedCors = [
   'localhost:3000',
 ];
 
+app.use(helmet());
 app.use(express.json());
 app.use(requestLogger);
 app.use((req, res, next) => {
