@@ -20,10 +20,13 @@ const CORS_WHITELIST = [
   'http://localhost:3000',
   'https://localhost:3000',
 ];
-
 const app = express();
 app.use(helmet());
 const corsOption = {
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
   credentials: true,
   origin: function checkCorsList(origin, callback) {
     if (CORS_WHITELIST.indexOf(origin) !== -1 || !origin) {
