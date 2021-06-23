@@ -21,6 +21,8 @@ const CORS_WHITELIST = [
   'https://localhost:3000',
 ];
 
+const app = express();
+
 const corsOption = {
   credentials: true,
   origin: function checkCorsList(origin, callback) {
@@ -31,8 +33,7 @@ const corsOption = {
     }
   },
 };
-
-const app = express();
+app.options('*', cors(corsOption));
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
   useNewUrlParser: true,
@@ -43,7 +44,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 app.use(helmet());
 app.use(express.json());
 app.use(requestLogger);
-app.use(cors(corsOption));
+// app.use(cors(corsOption));
 app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required(),
