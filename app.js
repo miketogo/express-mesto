@@ -21,6 +21,8 @@ const allowedCors = [
   'localhost:3000',
 ];
 
+app.use(express.json());
+app.use(requestLogger);
 app.use((req, res, next) => {
   const { origin } = req.headers;
 
@@ -30,9 +32,6 @@ app.use((req, res, next) => {
 
   next();
 });
-
-app.use(requestLogger);
-app.use(express.json());
 app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required(),
