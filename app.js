@@ -11,8 +11,8 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT = 3000 } = process.env;
 
 const CORS_WHITELIST = [
-  'http://surikov.mesto.students.nomoredomains.monster',
-  'localhost:3000',
+  'https://surikov.mesto.students.nomoredomains.monster',
+  'http://localhost:3000',
 ];
 
 const app = express();
