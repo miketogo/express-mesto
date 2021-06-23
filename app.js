@@ -14,6 +14,7 @@ const { PORT = 3000 } = process.env;
 
 const CORS_WHITELIST = [
   'https://surikov.mesto.students.nomoredomains.monster',
+  'https://api.surikovmesto.students.nomoredomains.club',
   'http://localhost:3000',
 ];
 
