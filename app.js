@@ -1,5 +1,4 @@
-import * as helmet from 'helmet';
-
+const helmet = require('helmet');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
