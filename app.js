@@ -10,6 +10,11 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 // Слушаем 3000 порт
 const { PORT = 3000 } = process.env;
 
+const CORS_WHITELIST = [
+  'http://surikov.mesto.students.nomoredomains.monster',
+  'localhost:3000',
+];
+
 const app = express();
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
@@ -17,10 +22,6 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useCreateIndex: true,
   useFindAndModify: false,
 });
-const allowedCors = [
-  'http://surikov.mesto.students.nomoredomains.monster',
-  'localhost:3000',
-];
 
 app.use(helmet());
 app.use(express.json());
@@ -28,7 +29,7 @@ app.use(requestLogger);
 app.use((req, res, next) => {
   const { origin } = req.headers;
 
-  if (allowedCors.includes(origin)) {
+  if (CORS_WHITELIST.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
   }
 
