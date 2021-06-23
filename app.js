@@ -1,5 +1,5 @@
-const helmet = require('helmet');
 const express = require('express');
+const helmet = require('helmet');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const { errors, celebrate, Joi } = require('celebrate');
@@ -22,7 +22,7 @@ const CORS_WHITELIST = [
 ];
 
 const app = express();
-
+app.use(helmet());
 const corsOption = {
   credentials: true,
   origin: function checkCorsList(origin, callback) {
@@ -41,7 +41,6 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useFindAndModify: false,
 });
 
-app.use(helmet());
 app.use(express.json());
 app.use(requestLogger);
 // app.use(cors(corsOption));
