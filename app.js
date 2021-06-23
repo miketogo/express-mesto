@@ -4,6 +4,7 @@ const { errors, celebrate, Joi } = require('celebrate');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not-found-err');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 // Слушаем 3000 порт
 const { PORT = 3000 } = process.env;
@@ -15,7 +16,22 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useCreateIndex: true,
   useFindAndModify: false,
 });
+const allowedCors = [
+  'http://surikov.mesto.students.nomoredomains.monster',
+  'localhost:3000',
+];
 
+app.use((req, res, next) => {
+  const { origin } = req.headers;
+
+  if (allowedCors.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+
+  next();
+});
+
+app.use(requestLogger);
 app.use(express.json());
 app.post('/signin', celebrate({
   body: Joi.object().keys({
@@ -36,7 +52,7 @@ app.use('/cards', auth, require('./routes/cards'));
 app.use((req, res) => {
   throw new NotFoundError('Запрашиваемый ресурс не найден');
 });
-
+app.use(errorLogger);
 app.use(errors());
 
 // eslint-disable-next-line no-unused-vars
