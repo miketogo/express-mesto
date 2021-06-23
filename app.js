@@ -1,9 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const helmet = require('helmet');
 const { errors, celebrate, Joi } = require('celebrate');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+
 const NotFoundError = require('./errors/not-found-err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -14,6 +16,17 @@ const CORS_WHITELIST = [
   'https://surikov.mesto.students.nomoredomains.monster',
   'http://localhost:3000',
 ];
+
+const corsOption = {
+  credentials: true,
+  origin: function checkCorsList(origin, callback) {
+    if (CORS_WHITELIST.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
 
 const app = express();
 mongoose.connect('mongodb://localhost:27017/mestodb', {
@@ -26,15 +39,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 app.use(helmet());
 app.use(express.json());
 app.use(requestLogger);
-app.use((req, res, next) => {
-  const { origin } = req.headers;
-
-  if (CORS_WHITELIST.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-
-  next();
-});
+app.use(cors(corsOption));
 app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required(),
