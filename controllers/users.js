@@ -6,7 +6,9 @@ const ConflictError = require('../errors/сonflict-err');
 const InvalidDataError = require('../errors/invalid-data-err');
 const AuthError = require('../errors/auth-err');
 
-const JWT_SECRET = 'e20f5a33bee3a1991d9da7e4db38281f9e97b36e0b1293af2c58035fbe34075f';
+const { NODE_ENV, JWT_SECRET } = process.env;
+
+const jwtSecretPhrase = NODE_ENV !== 'production' ? 'e20f5a33bee3a1991d9da7e4db38281f9e97b36e0b1293af2c58035fbe34075f' : JWT_SECRET;
 const opts = {
   new: true,
   runValidators: true,
@@ -96,7 +98,7 @@ module.exports.login = (req, res, next) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, jwtSecretPhrase, { expiresIn: '7d' });
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
