@@ -17,13 +17,13 @@ router.delete('/:cardId', celebrate({
     cardId: Joi.string().hex().length(24),
   }),
 }), deleteCardById);
-router.put('/:cardId/likes', celebrate({
+router.put('/likes/:cardId', celebrate({
   // валидируем параметры
   params: Joi.object().keys({
     cardId: Joi.string().hex().length(24),
   }),
 }), likeCard);
-router.delete('/:cardId/likes', celebrate({
+router.delete('/likes/:cardId', celebrate({
   // валидируем параметры
   params: Joi.object().keys({
     cardId: Joi.string().hex().length(24),
