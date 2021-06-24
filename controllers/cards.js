@@ -10,7 +10,7 @@ const opts = {
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .then((card) => res.status(200).send({ card }))
+    .then((cards) => res.status(200).send({ cards }))
     .catch(next);
 };
 
