@@ -14,7 +14,7 @@ const opts = {
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send({ user }))
     .catch(next);
 };
 
@@ -49,7 +49,7 @@ module.exports.getUserById = (req, res, next) => {
   User.findById(req.params.userId === 'me'
     ? req.user._id
     : req.params.userId).orFail(() => new Error('NotFound'))
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send({ user }))
     .catch((err) => {
       if (err.message === 'NotFound') {
         throw new NotFoundError('Нет пользователя с таким id');
@@ -64,7 +64,7 @@ module.exports.getUserById = (req, res, next) => {
 module.exports.updateUserProfile = (req, res, next) => {
   const { name, about } = req.body;
   User.findByIdAndUpdate(req.user._id, { name, about }, opts).orFail(() => new Error('NotFound'))
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send({ user }))
     .catch((err) => {
       if (err.message === 'NotFound') {
         throw new NotFoundError('Нет пользователя с таким id');
@@ -79,7 +79,7 @@ module.exports.updateUserProfile = (req, res, next) => {
 module.exports.updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
   User.findByIdAndUpdate(req.user._id, { avatar }, opts).orFail(() => new Error('NotFound'))
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send({ user }))
     .catch((err) => {
       if (err.message === 'NotFound') {
         throw new NotFoundError('Нет пользователя с таким id');
