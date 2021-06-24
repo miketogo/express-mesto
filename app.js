@@ -2,6 +2,7 @@ const express = require('express');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const { errors, celebrate, Joi } = require('celebrate');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
@@ -37,6 +38,7 @@ const corsOption = {
   },
 };
 app.use('*', cors(corsOption));
+app.use(cookieParser());
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
   useNewUrlParser: true,

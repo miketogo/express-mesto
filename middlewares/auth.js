@@ -4,14 +4,13 @@ const AuthError = require('../errors/auth-err');
 const JWT_SECRET = 'e20f5a33bee3a1991d9da7e4db38281f9e97b36e0b1293af2c58035fbe34075f';
 
 module.exports = (req, res, next) => {
-  const { authorization } = req.headers;
+  // const { authorization } = req.headers;
 
-  if (!authorization || !authorization.startsWith('Bearer ')) {
-    throw new AuthError('Необходима авторизация');
-  }
+  // if (!authorization || !authorization.startsWith('Bearer ')) {
+  //   throw new AuthError('Необходима авторизация');
+  // }
 
-  // извлечём токен
-  const token = authorization.replace('Bearer ', '');
+  const token = req.cookies.jwt;
   let payload;
 
   try {
